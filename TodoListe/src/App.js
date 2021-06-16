@@ -3,20 +3,28 @@ import React, {useState} from 'react';
 import { Col, Container, Form, Row, Button, ButtonGroup } from "react-bootstrap";
 import moment from 'moment';
 import "bootstrap/dist/css/bootstrap.min.css";
+import Dropdown from "react-bootstrap/Dropdown";
 
 
 
 function App() {
   const [todos, setTodos] = useState([ ]);
     const [value, setValue] = useState('');
+    const [value2, setValue2] = useState('');
     const [filter, setFilter] = useState("");
     const [todoFaellig, setTodoFaellig] = useState('');
+    const [personP, setPersonP] = useState('');
     const today = moment().format("DD.MM.yyyy");
 
 
     const handleChange = event => {
       setValue(event.target.value);
       event.preventDefault();
+    }
+
+    const handleChange2 = event => {
+        setValue2(event.target.value);
+        event.preventDefault();
     }
   
     const handleSubmit = event => {
@@ -32,6 +40,11 @@ function App() {
       let stats = [...todos];
       stats[idx].status = (stats[idx].status === "offen") ? "erledigt" : "offen";
       setTodos(stats);
+    }
+
+    const personSubmit = event => {
+        setPersonP(personP.concat({text: value2}));
+        event.preventDefault();
     }
 
     function handleFilter(e){
@@ -66,7 +79,33 @@ function App() {
             <Button id={"offen"} onclick={e => setFilter("offen")}>Erledigt</Button>
             <Button id={"favoriten"} onClick={e => setFilter("favoriten")}>Favoriten</Button>
       </ButtonGroup>
+
+          <Dropdown>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Personen
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                  <Dropdown.Item >{value2}</Dropdown.Item>
+              </Dropdown.Menu>
+          </Dropdown>
       </form>
+
+          <form onSubmit={personSubmit}>
+
+              <br/>
+              <br/>
+              <p><small>optional</small></p>
+              <Form.Control type="text" value={value2} onChange={handleChange2} placeholder="Person hinzufügen" />
+
+              <Button size="sm" variant="secondary" type="submit">Hinzufügen</Button>
+              <br></br>
+              <br></br>
+              <br></br>
+
+          </form>
+
+
       </Col>
       {todos.filter(todo => todo.status !== filter).map((todo, idx) =>
       <Row key={idx}>
@@ -85,7 +124,7 @@ function App() {
           <Button size="sm" variant="danger"  type="button" onClick={ () => handleRemove(idx) }>delete</Button>
           {console.log(todo.status + " " + filter)}
           
-          
+          {personP.value2}
         </Col>
       </Row>) }
     </Container>
