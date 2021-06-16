@@ -1,22 +1,16 @@
-function CharacterDropDown() {
-    const [items] = React.useState([
-        {
-            label: "Luke Skywalker",
-            value: "Luke Skywalker"
-        },
-        { label: "C-3PO", value: "C-3PO" },
-        { label: "R2-D2", value: "R2-D2" }
-    ]);
+function Dropdown() {
+    const [name, setName] = React.useState([]);
+
+    React.useEffect(() => {
+        async function getCharacters() {
+            const response = await fetch(App.js/);
+            const body = await response.json();
+            setItems(body.results.map(({ name }) => ({ label: name, value: name })));
+        }
+        getCharacters();
+    }, []);
+
     return (
-        <select>
-            {items.map(item => (
-                <option
-                    key={item.value}
-                    value={item.value}
-                >
-                    {item.label}
-                </option>
-            ))}
-        </select>
-    );
+...
+);
 }
