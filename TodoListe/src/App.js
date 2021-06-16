@@ -1,57 +1,66 @@
+import './App.css';
 import React, {useState} from 'react';
 import { Col, Container, Form, Row, Button, ButtonGroup } from "react-bootstrap";
+import moment from 'moment';
+import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function App() {
-  const [todos, setTodos] = useState([ 
-    { text:"mein erstes todo", status: "offen", date: '26.01.2021'}, 
-    { text:"mein zweites todo", status: "offen", date: '26.01.2021'} ]);
-  const [value, setValue] = useState('');
-  const [filter, setFilter] = useState("");
-  const [todoFaellig, setTodoFaellig] = useState('');
+
+
+function App() {
+  const [todos, setTodos] = useState([ ]);
+    const [value, setValue] = useState('');
+    const [filter, setFilter] = useState("");
+    const [todoFaellig, setTodoFaellig] = useState('');
+    const today = moment().format("DD.MM.yyyy");
+
+
+    const handleChange = event => {
+      setValue(event.target.value);
+      event.preventDefault();
+    }
   
-
-  const handleChange = event => {
-    setValue(event.target.value);
-    event.preventDefault();
-  }
-
-  const handleSubmit = event => {
-      setTodos(todos.concat({text: value, status: "offen", date: todoFaellig}));
-    event.preventDefault();
-  }
-
-  const handleRemove = idx => {
-   setTodos(todos.filter((todo,i) => i !== idx));
-    };
-
-  const handleStatus = (event, idx) => {
-    let stats = [...todos];
-    stats[idx].status = (stats[idx].status === "offen") ? "erledigt" : "offen";
-    setTodos(stats);
-  }
-
-  /*const handleFavs = (event, idx) => {
-    let favs =[...todos];
-    favos[idx].favs = (favos[idx].favs === "nein") ? "ja" : "nein";
-    setTodos(favs);
-  }*/
-
-  function handleFilter(e){
-    setFilter(e.target.id);
-  }
+    const handleSubmit = event => {
+        setTodos(todos.concat({text: value, status: "offen", date: todoFaellig}));
+      event.preventDefault();
+    }
   
+    const handleRemove = idx => {
+     setTodos(todos.filter((todo,i) => i !== idx));
+      };
+  
+    const handleStatus = (event, idx) => {
+      let stats = [...todos];
+      stats[idx].status = (stats[idx].status === "offen") ? "erledigt" : "offen";
+      setTodos(stats);
+    }
+
+    function handleFilter(e){
+      setFilter(e.target.id);
+    }  
+
+
+
+
+
+
+
   return (
     <Container>
       <Col>
-      <h1>TODO-Liste</h1>
+      <h1>TodoListe:</h1>
       </Col>
       <Col>
-      <p>Zu erledigen:</p>
       <form onSubmit={handleSubmit}>
-      <input type="text" placeholder="z.B Kochen" value={value} onChange={handleChange} />
+      
+      <Form.Control type="text" value={value} onChange={handleChange} placeholder="z.B Kochen" />
       <input type="date" value="2021-01-20" onChange={(event) => setTodoFaellig(event.target.value)} />
-      <button type="submit">Hinzufügen</button>
-      <ButtonGroup onClick={e => handleFilter(e)}>
+      <Button size="sm" variant="success" type="submit">Hinzufügen</Button>
+      <br></br>
+      <br></br>
+      <br></br>
+
+
+      <ButtonGroup size="sm" onClick={e => handleFilter(e)}>
             <Button id={""} onclick={e => setFilter("")}>Alle</Button>
             <Button id={"erledigt"} onclick={e => setFilter("erledigt")}>Offen</Button>
             <Button id={"offen"} onclick={e => setFilter("offen")}>Erledigt</Button>
@@ -60,20 +69,29 @@ export default function App() {
       </form>
       </Col>
       {todos.filter(todo => todo.status !== filter).map((todo, idx) =>
-   
       <Row key={idx}>
         
         <Col>
           <br/>
-          {todo.text}{" Status: " + (todo.status)}
+          {todo.text}
           <br></br>
-          <Button onClick={(e) => handleStatus(e, idx)}>{todo.status}</Button>
-          <button type="button" class="btn btn-danger" onClick={ () => handleRemove(idx) }>delete</button>
+          {" Status: " + (todo.status)}  
+          <br></br>
+          Erstellt:  {today}
+          <br></br>
+          Fällig am: {todo.date}
+          <br></br>
+          <Button size="sm"variant="info" onClick={(e) => handleStatus(e, idx)}>{todo.status}</Button>
+          <Button size="sm" variant="danger"  type="button" onClick={ () => handleRemove(idx) }>delete</Button>
           {console.log(todo.status + " " + filter)}
           
+          
         </Col>
-        <Col>Fällig am: {todo.date}</Col>
       </Row>) }
     </Container>
-  )
+    
+  );
 }
+
+export default App;
+
