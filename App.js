@@ -27,6 +27,10 @@ function App() {
     const handleRemove = idx => {
      setTodos(todos.filter((todo,i) => i !== idx));
       };
+
+    const handleRemoveAll = event => {
+        setTodos([]);
+    }
   
     const handleStatus = (event, idx) => {
       let stats = [...todos];
@@ -66,6 +70,8 @@ function App() {
             <Button id={"offen"} onclick={e => setFilter("offen")}>Erledigt</Button>
             <Button id={"favoriten"} onClick={e => setFilter("favoriten")}>Favoriten</Button>
       </ButtonGroup>
+
+
       </form>
       </Col>
       {todos.filter(todo => todo.status !== filter).map((todo, idx) =>
@@ -81,13 +87,17 @@ function App() {
           <br></br>
           Fällig am: {todo.date}
           <br></br>
-          <Button size="sm" variant="info" onClick={(e) => handleStatus(e, idx)}>{todo.status}</Button>
+          <Button size="sm"variant="info" onClick={(e) => handleStatus(e, idx)}>{todo.status}</Button>
           <Button size="sm" variant="danger"  type="button" onClick={ () => handleRemove(idx) }>delete</Button>
           {console.log(todo.status + " " + filter)}
-          
-          
+
+
         </Col>
       </Row>) }
+      <br/>
+      <br/>
+      <br/>
+      <Button size="sm" variant="danger" type="button" onClick={ () => handleRemoveAll() }>Delete all</Button>
     </Container>
     
   );
