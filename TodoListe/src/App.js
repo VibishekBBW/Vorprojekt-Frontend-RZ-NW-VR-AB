@@ -80,15 +80,7 @@ function App() {
             <Button id={"favoriten"} onClick={e => setFilter("favoriten")}>Favoriten</Button>
       </ButtonGroup>
 
-          <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                  Personen
-              </Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                  <Dropdown.Item >{value2}</Dropdown.Item>
-              </Dropdown.Menu>
-          </Dropdown>
       </form>
 
           <form onSubmit={personSubmit}>
@@ -120,8 +112,20 @@ function App() {
           <br></br>
           Fällig am: {todo.date}
           <br></br>
-          <Button size="sm"variant="info" onClick={(e) => handleStatus(e, idx)}>{todo.status}</Button>
-          <Button size="sm" variant="danger"  type="button" onClick={ () => handleRemove(idx) }>delete</Button>
+            <div>
+                <Button size="sm"variant="info" onClick={(e) => handleStatus(e, idx)}>{todo.status}</Button>
+                <Button size="sm" variant="danger"  type="button" onClick={ () => handleRemove(idx) }>delete</Button>
+                <Dropdown>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        Personen
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                        <Dropdown.Item >{value2}</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
+
           {console.log(todo.status + " " + filter)}
           
           {personP.value2}
