@@ -91,6 +91,11 @@ function App() {
 
                     </Col>
                 </Row>)}
+                  <br/>
+                  <br/>
+                  <br/>
+                  <Button size="sm" variant="danger" type="button" onClick={ () => handleRemoveAll() }>Delete all</Button>
+    </Container>
         </Container>
 
     );
