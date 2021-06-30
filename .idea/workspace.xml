@@ -20,9 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7750dddf-7764-4697-b09f-ca33d1e23b74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/TodoListe/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/TodoListe/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TodoListe/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/TodoListe/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TodoListe/src/Name.js" beforeDir="false" afterPath="$PROJECT_DIR$/TodoListe/src/Name.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

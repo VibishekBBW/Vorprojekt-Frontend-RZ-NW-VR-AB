@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState} from 'react';
-import {Col, Container, Form, Row, Button, ButtonGroup} from "react-bootstrap";
+import {Col, Container, Form, Row, Button, ButtonGroup, Modal, FormControl} from "react-bootstrap";
 import moment from 'moment';
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -11,7 +11,11 @@ function App() {
     const [filter, setFilter] = useState("");
     const [todoFaellig, setTodoFaellig] = useState('');
     const today = moment().format("DD.MM.yyyy");
+    const [bem, setBem] = useState("");
+    const [show, setShow] = useState(false);
 
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleChange = event => {
         setValue(event.target.value);
@@ -23,9 +27,24 @@ function App() {
         event.preventDefault();
     }
 
+    const handleBemerkung = event => {
+        setBem({bem});
+        event.preventDefault();
+    }
+
+    const handleChangeBem = event => {
+        setBem(bem);
+        event.preventDefault();
+    }
+
+
     const handleRemove = idx => {
         setTodos(todos.filter((todo, i) => i !== idx));
     };
+
+    const handleRemoveAll = event => {
+        setTodos([]);
+    }
 
     const handleStatus = (event, idx) => {
         let stats = [...todos];
@@ -43,11 +62,50 @@ function App() {
         setTodos(stats);
     }
 
+    function Bemerkung() {
+
+        return (
+            <>
+                <Button size="sm" variant="primary" onClick={handleShow}>
+                    Bemerkung
+                </Button>
+
+                <Modal
+                    show={show}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Bemerkung hinzufügen</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div>
+                            <label htmlFor="recipient-name" className="col-form-label">Bemerkung: </label>
+                            <textarea onChange={handleChangeBem} className="form-control" id="message-text">{bem}</textarea>
+                        </div>
+                        {/*
+                            <div>
+                                <label htmlFor="recipient-name" className="col-form-label">Status: </label>
+                                <input type="text" value={" Status: " + (todo.status)} class="form-control"/>
+                            </div>
+                            */}
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>Schliessen</Button>
+                        <Button onSubmit={handleBemerkung} variant="primary">Speichern</Button>
+
+                    </Modal.Footer>
+                </Modal>
+            </>
+        );
+    }
 
     return (
         <Container>
             <Col>
-                <h1>TodoListe:</h1>
+                <h1 className="boldh">TodoListe:</h1>
             </Col>
             <Col>
                 <form onSubmit={handleSubmit}>
@@ -73,7 +131,7 @@ function App() {
 
                     <Col>
                         <br/>
-                        {todo.text}
+                        <h4>{todo.text}</h4>
                         <br></br>
                         {" Status: " + (todo.status)}
                         <br></br>
@@ -83,10 +141,12 @@ function App() {
                         <br></br>
                         Fällig am: {todo.date}
                         <br></br>
-                        <Button size="sm" variant="info" onClick={(e) => handleStatus(e, idx)}>{todo.status}</Button>
-                        <Button size="sm" variant="danger" type="button"
-                                onClick={() => handleRemove(idx)}>delete</Button>
-                        {console.log(todo.status + " " + filter)}
+                        <div className="float-right" >
+                            <Button size="sm" variant="info" onClick={(e) => handleStatus(e, idx)}>{todo.status}</Button>
+                            <Button size="sm" variant="danger" type="button"
+                                    onClick={() => handleRemove(idx)}>delete</Button>
+                            {console.log(todo.status + " " + filter)}
+                        </div>
 
 
                     </Col>
@@ -95,7 +155,6 @@ function App() {
                   <br/>
                   <br/>
                   <Button size="sm" variant="danger" type="button" onClick={ () => handleRemoveAll() }>Delete all</Button>
-    </Container>
         </Container>
 
     );
